@@ -1,17 +1,12 @@
 import { CsvFileReader } from './CsvFileReader';
-import { GameResult } from './GameResult';
-import { parseDate } from './utils';
+import { GameReader } from './GameReader';
+import { Summary } from './Summary';
 
 
-const reader = new CsvFileReader('football.csv');
-reader.read();
-//[date, home team, away team, home goals, away goals, winner, referee]
-let manUnitedWins = 0;
+const reader = new GameReader(new CsvFileReader('football.csv'));
+const summary = Summary.SummaryFactory('Crystal Palace');
 
-reader.data.forEach(game => {
-    if ((game[1] === 'Man United' && game[5] === GameResult.HomeWin) || (game[2] === 'Man United' && game[5] === GameResult.AwayWin)) manUnitedWins++;
-})
-console.log(manUnitedWins);
-
+reader.load();
+summary.buildAndReport(reader.games);
 
 
